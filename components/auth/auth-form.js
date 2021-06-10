@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import classes from './auth-form.module.css';
 import axios from 'axios';
 import { signIn } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 async function createUser(email, password) {
   try {
@@ -17,6 +18,7 @@ async function createUser(email, password) {
 }
 
 function AuthForm() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -33,6 +35,9 @@ function AuthForm() {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
+      if (!result.error) {
+        router.replace('/profile');
+      }
       console.log(result);
     } else {
       try {
